@@ -2,15 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AddTaskForm from "./component/AddTaskForm";
+import Loader from "./component/Loader";
 
 const App = () => {
   const tableRef = useRef(null);
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
+  const [load, setLoad] = useState(false);
 
   // Fetch data from the API
   useEffect(() => {
+    setLoad(true);
     fetch("https://jsonplaceholder.typicode.com/todos")
       .then((response) => response.json())
       .then((data) => {
@@ -22,6 +25,11 @@ const App = () => {
         }));
         setTasks(onlyTwentyData);
         setFilteredTasks(onlyTwentyData);
+        setLoad(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoad(false);
       });
   }, []);
 
@@ -195,11 +203,16 @@ const App = () => {
       </div>
 
       {/* Task Table */}
-
-      <div className="table-wrapper">
-        <div ref={tableRef}></div>
-      </div>
-      {!filteredTasks?.length && (
+      {load ? (
+        <div className="w-full flex justify-center items-center py-4">
+          <Loader />
+        </div>
+      ) : (
+        <div className="table-wrapper">
+          <div ref={tableRef}></div>
+        </div>
+      )}
+      {!filteredTasks?.length && !load && (
         <div className="flex justify-center items-center h-10 border border-gray-300 rounded-md bg-gray-100">
           <p className="text-lg text-gray-600 font-semibold">No Data Found</p>
         </div>
