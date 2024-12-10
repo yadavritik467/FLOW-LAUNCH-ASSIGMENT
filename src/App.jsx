@@ -195,9 +195,15 @@ const App = () => {
       </div>
 
       {/* Task Table */}
+
       <div className="table-wrapper">
         <div ref={tableRef}></div>
       </div>
+      {!filteredTasks?.length && (
+        <div className="flex justify-center items-center h-10 border border-gray-300 rounded-md bg-gray-100">
+          <p className="text-lg text-gray-600 font-semibold">No Data Found</p>
+        </div>
+      )}
     </div>
   );
 };
