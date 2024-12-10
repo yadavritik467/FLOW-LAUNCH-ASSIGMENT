@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.delete-btn {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 95%;
+}
+.table-wrapper .tabulator {
+  min-width: 600px;
+}
